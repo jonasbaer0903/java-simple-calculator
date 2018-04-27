@@ -28,8 +28,11 @@ public class CommandLine {
             result = multiply(zahl1, zahl2);
         }
 
+        String resultk = Double.toString(result);
 
-        System.out.println(result);
+        System.err.println(resultk);
+        System.err.println(resultk.replaceAll("\\.",","));
+        System.out.println(resultk);
     }
 
 

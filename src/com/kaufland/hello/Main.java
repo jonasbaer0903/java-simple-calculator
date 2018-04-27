@@ -30,6 +30,7 @@ class CalculatorPanel extends JPanel {
     private boolean start;
     private double result;
     private String lastCommand;
+
     public CalculatorPanel() {
 
         setLayout(new BorderLayout());
@@ -47,7 +48,7 @@ class CalculatorPanel extends JPanel {
 
         panel = new JPanel();
         panel.setLayout(new GridLayout(4, 4));
-        // Generierung der numerischen Taschenrechner-Tasten
+
         addButton("7", insert);
         addButton("8", insert);
         addButton("9", insert);
@@ -81,34 +82,38 @@ class CalculatorPanel extends JPanel {
         public void actionPerformed(ActionEvent event) {
             String command = event.getActionCommand();
 
-            // Füge den Präfix "-" an den String an wenn
-            // es sich um den ersten Befehl handelt (negative Zahl)
             if (start) {
                 if (command.equals("-")) {
                     display.setText(command);
                     start = false;
-                } else
+                } else {
                     lastCommand = command;
+                }
             } else {
-                // Berechnung ausführen
-                //calculate(Double.parseDouble(display.getText()));
+                calculate(Double.parseDouble(display.getText()));
                 lastCommand = command;
                 start = true;
             }
         }
     }
-
     private class InsertAction implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             String input = event.getActionCommand();
-            // Beim Start keinen Text anzeigen
-            // Das Start Flag anschließend auf false setzen
+
             if (start) {
                 display.setText("");
                 start = false;
             }
-            // Text anzeigen
             display.setText(display.getText() + input);
         }
+    }
+
+    public void calculate(double x) {
+        if (lastCommand.equals("+")) result += x;
+        else if (lastCommand.equals("-")) result -= x;
+        else if (lastCommand.equals("*")) result *= x;
+        else if (lastCommand.equals("/")) result /= x;
+        else if (lastCommand.equals("=")) result = x;
+        display.setText("" + result);
     }
 }
